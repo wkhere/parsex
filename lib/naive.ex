@@ -40,4 +40,14 @@ defmodule Naive do
     end)
   end
 
+  @spec sat((char -> boolean)) :: parser(char)
+  def sat(pred) do
+    bind(item, fn x ->
+      if pred.(x), do: return(x), else: zero
+    end)
+  end
+
+  @spec char(char) :: parser(char)
+  def char(c), do:
+    sat &(c == &1)
 end
