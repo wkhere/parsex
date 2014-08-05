@@ -15,4 +15,8 @@ defmodule Naive.Test do
         end).("123") ==
       [{{?1,?2}, "3"}]
   end
+
+  test "seq" do
+    assert seq(item, item).("123") == [{ {?1,?2}, "3" }]
+  end
 end

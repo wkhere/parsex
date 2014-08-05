@@ -29,4 +29,15 @@ defmodule Naive do
     end
   end
 
+  # page 6
+
+  @spec seq(parser(any), parser(any)) :: parser(any)
+  def seq(p, q) do
+    bind(p, fn x ->
+      bind(q, fn y ->
+        return {x,y}
+      end)
+    end)
+  end
+
 end
