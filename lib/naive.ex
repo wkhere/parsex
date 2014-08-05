@@ -50,4 +50,19 @@ defmodule Naive do
   @spec char(char) :: parser(char)
   def char(c), do:
     sat &(c == &1)
+
+  # page 7
+
+  @spec digit() :: parser(char)
+  def digit(), do:
+    sat &(&1 in ?0..?9)
+
+  @spec lower() :: parser(char)
+  def lower(), do:
+    sat &(&1 in ?a..?z)
+
+  @spec upper() :: parser(char)
+  def upper(), do:
+    sat &(&1 in ?A..?Z)
+
 end

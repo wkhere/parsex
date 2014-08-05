@@ -30,4 +30,20 @@ defmodule Naive.Test do
     assert char(?a).("abc") == [{?a, "bc"}]
     assert seq(char(?a), char(?b)).("abc") == [{ {?a,?b}, "c"}]
   end
+
+  test "digit" do
+    assert digit.("foo") == []
+    assert digit.("1x")  == [{?1, "x"}]
+  end
+
+  test "lower" do
+    assert lower.("foo") == [{?f, "oo"}]
+    assert lower.("Hi!") == []
+  end
+
+  test "upper" do
+    assert upper.("foo") == []
+    assert upper.("Hi!") == [{?H, "i!"}]
+  end
+
 end
