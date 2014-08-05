@@ -65,4 +65,17 @@ defmodule Naive do
   def upper, do:
     sat &(&1 in ?A..?Z)
 
+
+  @spec plus(parser(any), parser(any)) :: parser(any)
+  def plus(p, q), do:
+    fn inp -> p.(inp) ++ q.(inp) end
+
+  @spec letter :: parser(char)
+  def letter, do:
+    plus(lower, upper)
+
+  @spec alphanum :: parser(char)
+  def alphanum, do:
+    plus(letter, digit)
+
 end

@@ -46,4 +46,23 @@ defmodule Naive.Test do
     assert upper.("Hi!") == [{?H, "i!"}]
   end
 
+  test "plus" do
+    assert plus(zero, char(?a)).("ab") == [{?a, "b"}]
+    assert plus(char(?a), zero).("ab") == [{?a, "b"}]
+    assert plus(zero, zero).("ab") == []
+    assert \
+      plus(sat(&(&1 in ?a..?d)), sat(&(&1 in ?c..?z))).("d")
+      == [{?d, ""}, {?d, ""}]
+  end
+
+  test "letter" do
+    assert letter.("0") == []
+    assert seq(letter, letter).("Hi!") == [{ {?H,?i}, "!" }]
+  end
+
+  test "alphanum" do
+    assert alphanum.("!") == []
+    assert seq(alphanum, alphanum).("4x@") == [{ {?4,?x}, "@" }]
+  end
+
 end
