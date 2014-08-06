@@ -10,12 +10,12 @@ defmodule Naive do
   
   # page 5
 
-  @spec zero() :: parser(any)
-  def zero(), do:
+  @spec zero :: parser(any)
+  def zero, do:
     fn _input -> [] end
 
-  @spec item() :: parser(char)
-  def item() do
+  @spec item :: parser(char)
+  def item do
     fn 
       "" -> []
       <<x::utf8, xs::binary>> -> [{x, xs}]
@@ -53,16 +53,16 @@ defmodule Naive do
 
   # page 7
 
-  @spec digit() :: parser(char)
-  def digit(), do:
+  @spec digit :: parser(char)
+  def digit, do:
     sat &(&1 in ?0..?9)
 
-  @spec lower() :: parser(char)
-  def lower(), do:
+  @spec lower :: parser(char)
+  def lower, do:
     sat &(&1 in ?a..?z)
 
-  @spec upper() :: parser(char)
-  def upper(), do:
+  @spec upper :: parser(char)
+  def upper, do:
     sat &(&1 in ?A..?Z)
 
 end
