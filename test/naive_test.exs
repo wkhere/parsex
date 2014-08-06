@@ -65,4 +65,13 @@ defmodule Naive.Test do
     assert seq(alphanum, alphanum).("4x@") == [{ {?4,?x}, "@" }]
   end
 
+  test "word" do
+    assert word.("") == [{"", ""}]
+    assert word.("1") == [{"", "1"}]
+    assert word.("a") == [{"a", ""}, {"", "a"}]
+    assert word.("a1") == [{"a", "1"}, {"", "a1"}]
+    assert word.("ab") == [{"ab", ""}, {"a", "b"}, {"", "ab"}]
+    assert word.("ab1") == [{"ab", "1"}, {"a", "b1"}, {"", "ab1"}]
+  end
+
 end

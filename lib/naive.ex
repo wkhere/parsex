@@ -78,4 +78,15 @@ defmodule Naive do
   def alphanum, do:
     plus(letter, digit)
 
+  # page 8
+
+  @spec word :: parser(String.t)
+  def word do
+    nonempty_word = bind(letter, fn x ->
+      bind(word, fn xs ->
+        return <<x, xs::binary>>
+      end)
+    end)
+    plus(nonempty_word, return(""))
+  end
 end
