@@ -1,6 +1,30 @@
 defmodule Monadx.Test do
   use ExUnit.Case
 
+  test "raw monad processing" do
+    import Monadx
+
+    ast = reduce_monad(Foo, quote do: (return 1))
+    assert match? [{{:., [], [Foo, :return]}, [], [1]}], ast
+
+    ast = reduce_monad(Foo, quote do
+      x <- p
+      return x
+    end)
+    assert(
+      [{{:., [], [Foo, :bind]}, [],
+        [{:p, [], _},
+        {:fn, [],
+          [{:->, [],
+            [[{:x, [], _}],
+            {:__block__, [],
+              [{{:., [], [Foo, :return]}, [], [{:x, [], _}]}]}]}]}]}]
+      |> match? ast)
+
+    # todo: more
+  end
+
+
   test "maybe monad" do
     require Maybe
 
