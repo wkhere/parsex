@@ -1,19 +1,17 @@
 defmodule Monadx do
   defmacro __using__(_opts) do
-    quote do
+    quote [location: :keep] do
+      @behaviour Monadx
+
       defmacro monad(do: body) do
-        case body do
-          {__block__, [], exprs} ->
-            __block__([ Monadx.reduce_monad(__MODULE__, exprs, []) ])
+        exprs = case body do
+          {:__block__, _, exprs} -> exprs
+          expr -> [expr]
+        end
+        quote do
+          unquote_splicing(Monadx.reduce_monad(__MODULE__, exprs, []))
         end
       end
-
-      def bind({:just, x}, f), do: f.(x)
-      def bind(:nothing, _), do: :nothing
-      def return(x), do: {:just, x}
-
-      defoverridable [bind: 2]
-      defoverridable [return: 1]
     end
   end
 
@@ -21,28 +19,34 @@ defmodule Monadx do
   @callback bind(monad, (any -> monad)) :: monad
   @callback return(any) :: monad
 
-  require IEx
+
+  # helpers
+
   def reduce_monad(module, [expr|rest], acc) do
     case expr do
-      {:<-, ctx, [{xsym, ctx, _}, m]} ->
-        {:bind, [context: Elixir, import: module],
-          [ m,
-            {:fn, [], [{:->, [], [
-              [{xsym, [], Elixir}],
-              __block__( reduce_monad(module, rest, acc) )
-            ]}]}]}
+      {:<-, _ctx, [x, m]} ->
+        [quote do
+          unquote(module).bind(unquote(m), fn unquote(x) ->
+            unquote_splicing( reduce_monad(module, rest, acc) )
+          end)
+        end]
       {:let, _ctx, [{:=, _, _}=assgn]} ->
-        reduce_monad(module, rest, [assgn|acc])
+        reduce_monad(module, rest, [assgn | acc])
       {:return, _ctx, args} ->
-        reduce_monad(module, rest, [{:return, [], args} | acc])
+        ret = quote do: unquote(module).return(unquote_splicing(args))
+        reduce_monad(module, rest, [ret | acc])
       # what about "bind with 0-arity fn?"
-      _ -> raise "monad syntax error"
+      _ -> raise "monad syntax error: #{inspect expr}"
     end
   end
   def reduce_monad(_module, [], acc), do:
     Enum.reverse acc
 end
 
-defmodule MaybeM do
+
+defmodule Maybe do
   use Monadx
+  def bind({:just, x}, f), do: f.(x)
+  def bind(:nothing, _), do: :nothing
+  def return(x), do: {:just, x}
 end
