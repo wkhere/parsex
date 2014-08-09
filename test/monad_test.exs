@@ -52,5 +52,20 @@ defmodule Monadx.Test do
     end
     assert v == :nothing
 
+    # this is working from iex, but not here:
+    # I guess it's because it's inside another macro
+    # needs carefully printing ASTs from this test
+    v = Maybe.monad do
+      x <- {:just, 1}
+      let a = 5
+      y <- {:just, a}
+      return [x,y]
+    end
+    assert v == {:just, [1,5]}
+
+    # other dark corners:
+    # * if let is before any bind, the assignment leaks to the calling scope
+    # * no support for bind/return/let nested in syntax constructs
+    #   - needs rethinking how reduce_monad should work
   end
 end
