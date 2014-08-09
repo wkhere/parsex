@@ -4,9 +4,7 @@ defmodule Monadx do
       @behaviour Monadx
 
       defmacro monad(do: body) do
-        quote do
-          unquote_splicing(Monadx.reduce_monad(__MODULE__, body))
-        end
+        quote do: (unquote_splicing(Monadx.reduce_monad(__MODULE__, body)))
       end
     end
   end
