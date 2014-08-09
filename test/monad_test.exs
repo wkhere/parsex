@@ -52,15 +52,22 @@ defmodule Monadx.Test do
     end
     assert v == :nothing
 
-    # bug: this is not working because `a` is bound *inside* fn x ..
-    #    v = Maybe.monad do
-    #      let a = 1
-    #      x <- {:just, a}
-    #      return x
-    #    end
-    #    assert v == {:just, 1}
+    v = Maybe.monad do
+      let a = 1
+      x <- {:just, a}
+      return x
+    end
+    assert v == {:just, 1}
 
-    # other dark corners:
+    v = Maybe.monad do
+      x <- {:just, 1}
+      let a = 2
+      y <- {:just, a}
+      return [x,y]
+    end
+    assert v == {:just, [1,2]}
+
+    # dark corners:
     # * if let is before any bind, the assignment leaks to the calling scope
     # * no support for bind/return/let nested in syntax constructs
     #   - needs rethinking how reduce_monad should work

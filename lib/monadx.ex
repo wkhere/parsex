@@ -28,11 +28,12 @@ defmodule Monadx do
   def reduce_monad(module, [expr|rest], acc) do
     case expr do
       {:<-, _ctx, [x, m]} ->
-        [quote do
+        bound = quote do
           unquote(module).bind(unquote(m), fn unquote(x) ->
-            unquote_splicing( reduce_monad(module, rest, acc) )
+            unquote_splicing( reduce_monad(module, rest, []) )
           end)
-        end]
+        end
+        reduce_monad(module, [], [bound | acc])
       {:let, _ctx, [{:=, _, _}=assgn]} ->
         reduce_monad(module, rest, [assgn | acc])
       {:return, _ctx, args} ->
