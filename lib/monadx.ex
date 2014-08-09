@@ -1,6 +1,6 @@
 defmodule Monadx do
   defmacro __using__(_opts) do
-    quote [location: :keep] do
+    quote location: :keep do
       @behaviour Monadx
 
       defmacro monad(do: body) do
