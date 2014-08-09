@@ -4,12 +4,8 @@ defmodule Monadx do
       @behaviour Monadx
 
       defmacro monad(do: body) do
-        exprs = case body do
-          {:__block__, _, exprs} -> exprs
-          expr -> [expr]
-        end
         quote do
-          unquote_splicing(Monadx.reduce_monad(__MODULE__, exprs, []))
+          unquote_splicing(Monadx.reduce_monad(__MODULE__, body))
         end
       end
     end
@@ -21,6 +17,15 @@ defmodule Monadx do
 
 
   # helpers
+
+  def reduce_monad(module, body) do
+    reduce_monad(module,
+      case body do
+        {:__block__, _, exprs} -> exprs
+        expr -> [expr]
+      end,
+      [])
+  end
 
   def reduce_monad(module, [expr|rest], acc) do
     case expr do
