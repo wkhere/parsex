@@ -6,7 +6,7 @@ Parser combinators for Elixir.
 
 This is a work in progress. 
 
-Loosely based on [monparsing].
+Loosely based on [monparsing] paper.
 
 [monparsing]: http://www.cs.nott.ac.uk/~gmh/bib.html#monparsing
 
