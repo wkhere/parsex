@@ -5,8 +5,10 @@ Parsex
 Parser combinators for Elixir.
 
 This is a work in progress. 
-A go through the "monparsing" paper for now.
-On the way invented yet another monad macro.
+
+Loosely based on [monparsing].
+
+[monparsing]: http://www.cs.nott.ac.uk/~gmh/bib.html#monparsing
 
 Random notes:
 * return stream from parser - or only in `plus` when there's more
