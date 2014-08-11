@@ -1,4 +1,4 @@
-defmodule Naive.Test do
+defmodule Parsex.Naive.Test do
   use ExUnit.Case
   import Parsex.Naive
 
