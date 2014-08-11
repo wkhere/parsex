@@ -1,5 +1,6 @@
 Parsex
 ======
+[![Build Status](https://travis-ci.org/herenowcoder/parsex.svg?branch=master)](https://travis-ci.org/herenowcoder/parsex)
 
 Parser combinators for Elixir.
 
