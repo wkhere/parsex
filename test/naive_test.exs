@@ -1,6 +1,6 @@
 defmodule Naive.Test do
   use ExUnit.Case
-  import Naive
+  import Parsex.Naive
 
   test "bind" do
     assert \

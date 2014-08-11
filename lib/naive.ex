@@ -1,4 +1,5 @@
-defmodule Naive do
+defmodule Parsex.Naive do
+  # a go thru first chapters of monparsing paper, without monad macro
   
   # page 4, `result` is changed for `return`
 
