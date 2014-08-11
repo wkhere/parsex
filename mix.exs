@@ -25,6 +25,6 @@ defmodule Parsex.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [{:monad, "~> 1.0.3"}]
   end
 end
