@@ -2,7 +2,7 @@ defmodule Parsex.Combinators do
   alias Parsex.Parser
   import Parser
   
-  @type parser(a) :: parser(a)
+  @type parser(a) :: Parser.t(a)
 
   @spec item :: parser(char)
   def item do
