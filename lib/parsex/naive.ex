@@ -26,7 +26,7 @@ defmodule Parsex.Naive do
   @spec bind(parser(any), (any -> parser(any))) :: parser(any)
   def bind(p, f) do
     fn inp ->
-      (for {v,inp1} <- p.(inp), do: f.(v).(inp1)) |> List.flatten
+      (for {v,inp1} <- p.(inp), do: f.(v).(inp1)) |> Enum.concat
     end
   end
 
