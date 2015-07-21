@@ -4,7 +4,7 @@ defmodule Parsex.Mixfile do
   def project do
     [app: :parsex,
      version: "0.0.1-dev",
-     elixir: "~> 0.15.0",
+     elixir: "~> 1.0.0",
      deps: deps]
   end
 
